@@ -79,6 +79,7 @@ while test $# -gt 0; do
                       rm -rf $BuildToolName
                       wget $BuildToolDownload
                       exit 0
+                      ;;
                 *)
                         echo "${red}Try TheNexus.sh --help for help${reset}"
                         break
