@@ -10,7 +10,7 @@
 #Constants
 #------------------------
 BuildToolDownload="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"
-BuildToolName="BuildTool.jar"
+BuildToolName="BuildTools.jar"
 FolderName="BuildTool"
 GitPrerequisites="git"
 JavaPrerequisites="openjdk-7-jre-headless"
@@ -46,7 +46,8 @@ while test $# -gt 0; do
                         rm -rf $FolderName
                         echo "${green}Rebuilding folder and Downloading BuildTools!${reset}"
                         mkdir $FolderName
-                        curl -O $BuildToolDownload
+                        cd $FolderName
+                        wget $BuildToolDownload
                         exit 0
                         ;;
       -install|-i)
@@ -56,9 +57,9 @@ while test $# -gt 0; do
                        apt-get install -y $GitPrerequisites $JavaPrerequisites $TarPrerequisites $CurlPrerequisites
                        clear
                        echo "${green}Build folders and downloading BuildTools${reset}"
-                       mkdir BuildTool
+                       mkdir $FolderName
                        cd $FolderName
-                       curl -O $BuildToolDownload
+                       wget $BuildToolDownload
                        exit 0
                        ;;
         -build|-b)
@@ -68,7 +69,7 @@ while test $# -gt 0; do
                        git config --global --unset core.autocrlf
                        clear
                        echo "${green}Starting BuildTools${reset}"
-                       java -jar BuildTools.jar --rev latest
+                       java -jar $BuildToolName --rev latest
                        exit 0
                        ;;
                 *)
