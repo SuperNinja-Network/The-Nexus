@@ -38,7 +38,7 @@ then
   rm -rf $FolderName
   echo "Rebuilding folder and Downloading Build tool!"
   mkdir $FolderName
-  wget $BuildToolDownload
+  curl -o $BuildToolDownload
 
 else
   echo "Running main build tool"
