@@ -72,6 +72,13 @@ while test $# -gt 0; do
                        java -jar $BuildToolName --rev latest
                        exit 0
                        ;;
+-updateBuildTools|-ub)
+                      clear
+                      echo "${green}Updateing only the BuildTools.jar${reset}"
+                      cd $FolderName
+                      rm -rf $BuildToolName
+                      wget $BuildToolDownload
+                      exit 0
                 *)
                         echo "${red}Try TheNexus.sh --help for help${reset}"
                         break
