@@ -5,7 +5,7 @@
 #The Nexus is made for the SuperNinja Network
 
 #The Nexus
-#Versions 1.5
+#Versions 2.1
 
 #Constants
 #------------------------
@@ -17,32 +17,63 @@ JavaPrerequisites="openjdk-7-jre-headless"
 TarPrerequisites="tar"
 CurlPrerequisites="curl"
 #------------------------
+#Colours
+#------------------------
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+#------------------------
 
-if [ ! -z "install" ];
-then
-  echo "Installing prerequisities via apt-get"
-  apt-get update && apt-get upgrade -y
-  apt-get install -y $GitPrerequisites $JavaPrerequisites $TarPrerequisites $CurlPrerequisites
-  mkdir BuildTool
-  cd $FolderName
-  curl -o $BuildToolDownload
-
-elif [ ! -z "update" ];
-then
-  echo "This update will delete all of the build tool and it's contents!"
-  echo "You have 3 SECONDS to cancel this with CTRL+C"
-  sleep 3
-  echo "updating prerequisities via apt-get"
-  apt-get update && apt-get upgrade -y
-  echo "Deleting BuildTool Folder!"
-  rm -rf $FolderName
-  echo "Rebuilding folder and Downloading Build tool!"
-  mkdir $FolderName
-  curl -o $BuildToolDownload
-
-else
-  echo "Running main build tool"
-  cd $FolderName
-  git config --global --unset core.autocrlf
-  java -jar BuildTools.jar --rev latest
-fi
+while test $# -gt 0; do
+        case "$1" in
+                -h|--help)
+                        echo "The Nexus Updater 2.0"
+                        echo "options:"
+                        echo "-h, --help                show brief help"
+                        echo "-install | -i             Install the updater's prerequisities"
+                        echo "-update  | -u             Update the prerequisities and BuildTool"
+                        echo "-build   | -b             Build Spigot/Bukkit/CraftBukkit"
+                        exit 0
+                        ;;
+       -update|-u)
+                        echo "${red}This update will delete all of the build tool and it's contents!${reset}"
+                        echo "${red}You have 3 SECONDS to cancel this with CTRL+C${reset}"
+                        sleep 3
+                        echo "${green}updating prerequisities via apt-get${reset}"
+                        apt-get update && apt-get upgrade -y
+                        clear
+                        echo "${red}Deleting BuildTool Folder!${reset}"
+                        rm -rf $FolderName
+                        echo "${green}Rebuilding folder and Downloading BuildTools!${reset}"
+                        mkdir $FolderName
+                        curl -O $BuildToolDownload
+                        exit 0
+                        ;;
+      -install|-i)
+                       clear
+                       echo "${green}Installing prerequisities via apt-get${reset}"
+                       apt-get update && apt-get upgrade -y
+                       apt-get install -y $GitPrerequisites $JavaPrerequisites $TarPrerequisites $CurlPrerequisites
+                       clear
+                       echo "${green}Build folders and downloading BuildTools${reset}"
+                       mkdir BuildTool
+                       cd $FolderName
+                       curl -O $BuildToolDownload
+                       exit 0
+                       ;;
+        -build|-b)
+                       clear
+                       echo "${green}Running main Build setting and BuiltTool${reset}"
+                       cd $FolderName
+                       git config --global --unset core.autocrlf
+                       clear
+                       echo "${green}Starting BuildTools${reset}"
+                       java -jar BuildTools.jar --rev latest
+                       exit 0
+                       ;;
+                *)
+                        echo "${red}Try TheNexus.sh --help for help${reset}"
+                        break
+                        ;;
+        esac
+done
