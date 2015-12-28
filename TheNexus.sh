@@ -15,20 +15,19 @@ FolderName="BuildTool"
 GitPrerequisites="git"
 JavaPrerequisites="openjdk-7-jre-headless"
 TarPrerequisites="tar"
-1="install"
-2="update"
+CurlPrerequisites="curl"
 #------------------------
 
-if [ ! -z "$1" ];
+if [ ! -z "install" ];
 then
   echo "Installing prerequisities via apt-get"
   apt-get update && apt-get upgrade -y
-  apt-get install -y $GitPrerequisites $JavaPrerequisites $TarPrerequisites
+  apt-get install -y $GitPrerequisites $JavaPrerequisites $TarPrerequisites $CurlPrerequisites
   mkdir BuildTool
   cd $FolderName
-  wget -o $BuildToolDownload
+  curl -o $BuildToolDownload
 
-if [ ! -z "$2" ];
+elif [ ! -z "update" ];
 then
   echo "This update will delete all of the build tool and it's contents!"
   echo "You have 3 SECONDS to cancel this with CTRL+C"
