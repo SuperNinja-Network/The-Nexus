@@ -13,7 +13,7 @@ To use the script use
 
     sudo bash TheNexus.sh
 
-#### You will need to add one of these 3 arguments for the script to work.
+#### You will need to add one of these 4 arguments for the script to work.
 
 
     -i or -install
