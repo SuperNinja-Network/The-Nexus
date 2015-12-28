@@ -5,7 +5,7 @@
 #The Nexus is made for the SuperNinja Network
 
 #The Nexus
-#Versions 1.0
+#Versions 1.5
 
 #Constants
 #------------------------
@@ -19,16 +19,16 @@ TarPrerequisites="tar"
 2="update"
 #------------------------
 
-if [ ${!i} "-$1" ]
+if [ ! -z "$1" ];
 then
   echo "Installing prerequisities via apt-get"
   apt-get update && apt-get upgrade -y
   apt-get install -y $GitPrerequisites $JavaPrerequisites $TarPrerequisites
   mkdir BuildTool
   cd $FolderName
-  wget $BuildToolDownload
+  wget -o $BuildToolDownload
 
-elif [ ${!i} "-$2" ];
+if [ ! -z "$2" ];
 then
   echo "This update will delete all of the build tool and it's contents!"
   echo "You have 3 SECONDS to cancel this with CTRL+C"
