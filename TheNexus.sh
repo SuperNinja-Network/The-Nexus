@@ -19,7 +19,7 @@ TarPrerequisites="tar"
 2="update"
 #------------------------
 
-if [ ${!i} = "$1" ]
+if [ ${!i} "-$1" ]
 then
   echo "Installing prerequisities via apt-get"
   apt-get update && apt-get upgrade -y
@@ -28,7 +28,7 @@ then
   cd $FolderName
   wget $BuildToolDownload
 
-elif [ ${!i} = "$2" ];
+elif [ ${!i} "-$2" ];
 then
   echo "This update will delete all of the build tool and it's contents!"
   echo "You have 3 SECONDS to cancel this with CTRL+C"
