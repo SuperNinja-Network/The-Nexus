@@ -5,7 +5,7 @@
 #The Nexus is made for the SuperNinja Network
 
 #The Nexus
-#Versions 2.1
+#Versions 2.3
 
 #Constants
 #------------------------
@@ -13,7 +13,7 @@ BuildToolDownload="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfu
 BuildToolName="BuildTools.jar"
 #Defines folder name and where the folder will be located.
 FolderName="BuildTool"
-Directory="home/$USER/$FolderName"
+Directory="/home/$USER/$FolderName"
 #Programes need are defined below.
 GitPrerequisites="git"
 JavaPrerequisites="openjdk-7-jre-headless"
@@ -35,7 +35,7 @@ while test $# -gt 0; do
                         echo "options:"
                         echo "-h, --help                show brief help"
                         echo "-install | -i             Install the updater's prerequisities"
-                        echo "-update  | -u             Update the prerequisities and BuildTool"
+                        echo "-update  | -u             Update the prerequisities and BuildTool (Removes Everything built by BuiltTools to avoid Problems!)"
                         echo "-updateBuildTools | -ub   Update only Spigot's BuildTools.jar"
                         echo "-build   | -b             Build Spigot/Bukkit/CraftBukkit"
                         exit 0
