@@ -11,7 +11,10 @@
 #------------------------
 BuildToolDownload="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"
 BuildToolName="BuildTools.jar"
+#Defines folder name and where the folder will be located.
 FolderName="BuildTool"
+Directory="home/$USER/$FolderName"
+#Programes need are defined below.
 GitPrerequisites="git"
 JavaPrerequisites="openjdk-7-jre-headless"
 TarPrerequisites="tar"
@@ -21,6 +24,7 @@ CurlPrerequisites="curl"
 #------------------------
 red=`tput setaf 1`
 green=`tput setaf 2`
+blue=`tput setaf 4`
 reset=`tput sgr0`
 #------------------------
 
@@ -32,6 +36,7 @@ while test $# -gt 0; do
                         echo "-h, --help                show brief help"
                         echo "-install | -i             Install the updater's prerequisities"
                         echo "-update  | -u             Update the prerequisities and BuildTool"
+                        echo "-updateBuildTools | -ub   Update only Spigot's BuildTools.jar"
                         echo "-build   | -b             Build Spigot/Bukkit/CraftBukkit"
                         exit 0
                         ;;
@@ -43,10 +48,10 @@ while test $# -gt 0; do
                         apt-get update && apt-get upgrade -y
                         clear
                         echo "${red}Deleting BuildTool Folder!${reset}"
-                        rm -rf $FolderName
+                        rm -rf $Directory
                         echo "${green}Rebuilding folder and Downloading BuildTools!${reset}"
-                        mkdir $FolderName
-                        cd $FolderName
+                        mkdir $Directory
+                        cd $Directory
                         wget $BuildToolDownload
                         exit 0
                         ;;
@@ -57,25 +62,28 @@ while test $# -gt 0; do
                        apt-get install -y $GitPrerequisites $JavaPrerequisites $TarPrerequisites $CurlPrerequisites
                        clear
                        echo "${green}Build folders and downloading BuildTools${reset}"
-                       mkdir $FolderName
-                       cd $FolderName
+                       mkdir $Directory
+                       cd $Directory
                        wget $BuildToolDownload
                        exit 0
                        ;;
         -build|-b)
                        clear
                        echo "${green}Running main Build setting and BuiltTool${reset}"
-                       cd $FolderName
+                       cd $Directory
                        git config --global --unset core.autocrlf
                        clear
                        echo "${green}Starting BuildTools${reset}"
-                       java -jar $BuildToolName --rev latest
+                       ${blue}java -jar $BuildToolName --rev latest${reset}
+                       echo "${green}Build finshed!${reset}"
+                       echo "${green}Opening in file manage${reset}r"
+                       nautilus $Directory
                        exit 0
                        ;;
 -updateBuildTools|-ub)
                       clear
                       echo "${green}Updateing only the BuildTools.jar${reset}"
-                      cd $FolderName
+                      cd $Directory
                       rm -rf $BuildToolName
                       wget $BuildToolDownload
                       exit 0
