@@ -13,7 +13,7 @@ BuildToolDownload="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfu
 BuildToolName="BuildTools.jar"
 #Defines folder name and where the folder will be located.
 FolderName="BuildTool"
-Directory="/home/$USER/$FolderName"
+Directory="/home/$LOGNAME/$FolderName"
 #Programes need are defined below.
 GitPrerequisites="git"
 JavaPrerequisites="openjdk-7-jre-headless"
