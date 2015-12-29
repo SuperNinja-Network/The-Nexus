@@ -5,7 +5,7 @@
 #The Nexus is made for the SuperNinja Network
 
 #The Nexus
-#Versions 2.3
+#Versions 2.5
 
 #Constants
 #------------------------
@@ -13,7 +13,7 @@ BuildToolDownload="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfu
 BuildToolName="BuildTools.jar"
 #Defines folder name and where the folder will be located.
 FolderName="BuildTool"
-Directory="/home/$LOGNAME/$FolderName"
+Directory="/home/$SUDO_USER/$FolderName"
 #Programes need are defined below.
 GitPrerequisites="git"
 JavaPrerequisites="openjdk-7-jre-headless"
@@ -33,7 +33,7 @@ while test $# -gt 0; do
                 -h|--help)
                         echo "The Nexus Updater 2.0"
                         echo "options:"
-                        echo "-h, --help                show brief help"
+                        echo "-h | --help                show brief help"
                         echo "-install | -i             Install the updater's prerequisities"
                         echo "-update  | -u             Update the prerequisities and BuildTool (Removes Everything built by BuiltTools to avoid Problems!)"
                         echo "-updateBuildTools | -ub   Update only Spigot's BuildTools.jar"
@@ -74,10 +74,11 @@ while test $# -gt 0; do
                        git config --global --unset core.autocrlf
                        clear
                        echo "${green}Starting BuildTools${reset}"
-                       ${blue}java -jar $BuildToolName --rev latest${reset}
+                       java -jar $BuildToolName --rev latest
                        echo "${green}Build finshed!${reset}"
-                       echo "${green}Opening in file manage${reset}r"
-                       nautilus $Directory
+                       echo "${green} Built in $Directory${reset}"
+                       echo "${green}Opening in file manager${reset}"
+                       xdg-open $Directory
                        exit 0
                        ;;
 -updateBuildTools|-ub)
@@ -89,7 +90,7 @@ while test $# -gt 0; do
                       exit 0
                       ;;
                 *)
-                        echo "${red}Try TheNexus.sh --help for help${reset}"
+                        echo "${red}Try 'TheNexus.sh --help' for help${reset}"
                         break
                         ;;
         esac
