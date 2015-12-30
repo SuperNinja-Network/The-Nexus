@@ -5,13 +5,16 @@
 #The Nexus is made for the SuperNinja Network
 
 #The Nexus
-#Versions 2.1
+#Versions 2.5
 
 #Constants
 #------------------------
 BuildToolDownload="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"
 BuildToolName="BuildTools.jar"
+#Defines folder name and where the folder will be located.
 FolderName="BuildTool"
+Directory="/home/$SUDO_USER/$FolderName"
+#Programes need are defined below.
 GitPrerequisites="git"
 JavaPrerequisites="openjdk-7-jre-headless"
 TarPrerequisites="tar"
@@ -21,6 +24,7 @@ CurlPrerequisites="curl"
 #------------------------
 red=`tput setaf 1`
 green=`tput setaf 2`
+blue=`tput setaf 4`
 reset=`tput sgr0`
 #------------------------
 
@@ -29,9 +33,10 @@ while test $# -gt 0; do
                 -h|--help)
                         echo "The Nexus Updater 2.0"
                         echo "options:"
-                        echo "-h, --help                show brief help"
+                        echo "-h | --help                show brief help"
                         echo "-install | -i             Install the updater's prerequisities"
-                        echo "-update  | -u             Update the prerequisities and BuildTool"
+                        echo "-update  | -u             Update the prerequisities and BuildTool (Removes Everything built by BuiltTools to avoid Problems!)"
+                        echo "-updateBuildTools | -ub   Update only Spigot's BuildTools.jar"
                         echo "-build   | -b             Build Spigot/Bukkit/CraftBukkit"
                         exit 0
                         ;;
@@ -43,10 +48,10 @@ while test $# -gt 0; do
                         apt-get update && apt-get upgrade -y
                         clear
                         echo "${red}Deleting BuildTool Folder!${reset}"
-                        rm -rf $FolderName
+                        rm -rf $Directory
                         echo "${green}Rebuilding folder and Downloading BuildTools!${reset}"
-                        mkdir $FolderName
-                        cd $FolderName
+                        mkdir $Directory
+                        cd $Directory
                         wget $BuildToolDownload
                         exit 0
                         ;;
@@ -57,31 +62,35 @@ while test $# -gt 0; do
                        apt-get install -y $GitPrerequisites $JavaPrerequisites $TarPrerequisites $CurlPrerequisites
                        clear
                        echo "${green}Build folders and downloading BuildTools${reset}"
-                       mkdir $FolderName
-                       cd $FolderName
+                       mkdir $Directory
+                       cd $Directory
                        wget $BuildToolDownload
                        exit 0
                        ;;
         -build|-b)
                        clear
                        echo "${green}Running main Build setting and BuiltTool${reset}"
-                       cd $FolderName
+                       cd $Directory
                        git config --global --unset core.autocrlf
                        clear
                        echo "${green}Starting BuildTools${reset}"
                        java -jar $BuildToolName --rev latest
+                       echo "${green}Build finshed!${reset}"
+                       echo "${green} Built in $Directory${reset}"
+                       echo "${green}Opening in file manager${reset}"
+                       xdg-open $Directory
                        exit 0
                        ;;
 -updateBuildTools|-ub)
                       clear
                       echo "${green}Updateing only the BuildTools.jar${reset}"
-                      cd $FolderName
+                      cd $Directory
                       rm -rf $BuildToolName
                       wget $BuildToolDownload
                       exit 0
                       ;;
                 *)
-                        echo "${red}Try TheNexus.sh --help for help${reset}"
+                        echo "${red}Try 'TheNexus.sh --help' for help${reset}"
                         break
                         ;;
         esac
