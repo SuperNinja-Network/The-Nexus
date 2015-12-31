@@ -42,8 +42,8 @@ while test $# -gt 0; do
                         ;;
        -update|-u)
                         echo "${red}This update will delete all of the build tool and it's contents!${reset}"
-                        echo "${red}You have 3 SECONDS to cancel this with CTRL+C${reset}"
-                        sleep 3
+                        echo "${red}You have 5 SECONDS to cancel this with CTRL+C${reset}"
+                        sleep 5
                         echo "${green}updating prerequisities via apt-get${reset}"
                         apt-get update && apt-get upgrade -y
                         clear
